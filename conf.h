@@ -35,6 +35,7 @@ struct conf {
 	char *temporary_dir;
 	unsigned umask;
 	bool unify;
+    char *export_exe;
 
 	const char **item_origins;
 };

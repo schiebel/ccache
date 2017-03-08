@@ -341,6 +341,7 @@ conf_create(void)
 	conf->temporary_dir = x_strdup("");
 	conf->umask = UINT_MAX; // Default: don't set umask.
 	conf->unify = false;
+	conf->export_exe = x_strdup("");
 	conf->item_origins = x_malloc(CONFITEMS_TOTAL_KEYWORDS * sizeof(char *));
 	for (size_t i = 0; i < CONFITEMS_TOTAL_KEYWORDS; ++i) {
 		conf->item_origins[i] = "default";
@@ -367,6 +368,7 @@ conf_free(struct conf *conf)
 	free(conf->prefix_command_cpp);
 	free(conf->temporary_dir);
 	free(conf->item_origins);
+	free(conf->export_exe);
 	free(conf);
 }
 
@@ -660,6 +662,9 @@ conf_print_items(struct conf *conf,
 
 	reformat(&s, "unify = %s", bool_to_string(conf->unify));
 	printer(s, conf->item_origins[find_conf("unify")->number], context);
+
+	reformat(&s, "export_exe = %s", conf->export_exe);
+	printer(s, conf->item_origins[find_conf("export_exe")->number], context);
 
 	free(s);
 	return true;

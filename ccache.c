@@ -19,6 +19,7 @@
 
 #include "ccache.h"
 #include "compopt.h"
+#include "export.h"
 #ifdef HAVE_GETOPT_LONG
 #include <getopt.h>
 #else
@@ -607,6 +608,9 @@ remember_include_file(char *path, struct mdfour *cpp_hash, bool system)
 				source = x_strdup("");
 				size = 0;
 			}
+
+            if (!str_eq(conf->export_exe, ""))
+                export_dependency(path);
 
 			int result = hash_source_code_string(conf, &fhash, source, size, path);
 			free(source);
@@ -2038,6 +2042,9 @@ from_cache(enum fromcache_call_mode mode, bool put_object_in_manifest)
 		break;
 	}
 
+    if (!str_eq(conf->export_exe, ""))
+        export_end(false);
+
 	// And exit with the right status code.
 	x_exit(0);
 }
@@ -3305,7 +3312,10 @@ ccache(int argc, char *argv[])
 		failed();
 	}
 
-	cc_log("Source file: %s", input_file);
+    if (!str_eq(conf->export_exe, ""))
+        export_begin(input_file);
+
+    cc_log("Source file: %s", input_file);
 	if (generating_dependencies) {
 		cc_log("Dependency file: %s", output_dep);
 	}
@@ -3409,6 +3419,9 @@ ccache(int argc, char *argv[])
 
 	// Run real compiler, sending output to cache.
 	to_cache(compiler_args);
+
+    if (!str_eq(conf->export_exe, ""))
+        export_end(true);
 
 	x_exit(0);
 }

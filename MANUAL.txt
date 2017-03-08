@@ -546,6 +546,12 @@ NOTE: In previous versions of ccache, *CCACHE_TEMPDIR* had to be on the same
     compiler warning messages and expansions of the *\_\_LINE__* macro. Also
     note that enabling the unifier implies turning off the direct mode.
 
+*export_exe* (*CCACHE_EXPORT_EXE*)::
+
+    This setting specifies an executable for ccache to use for exporting
+    collected dependency information as it is collected. By default this
+    is disabled.
+
 
 Cache size management
 ---------------------

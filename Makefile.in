@@ -40,6 +40,7 @@ non_3pp_sources = \
     stats.c \
     unify.c \
     util.c \
+	export.c \
     version.c
 3pp_sources = \
     getopt_long.c \
